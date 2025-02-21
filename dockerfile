@@ -17,7 +17,7 @@ RUN pnpm install --frozen-lockfile --prod
 COPY . .
 
 # Expone el puerto de la aplicación
-EXPOSE 3000
+EXPOSE 5500
 
 # Comando para iniciar la aplicación
 CMD ["node", "dist/main"]
