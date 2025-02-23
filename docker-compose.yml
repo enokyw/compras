@@ -1,7 +1,4 @@
 services:
   compras:
     build: .
-    container_name: compras_service
-    restart: always
-    ports:
-      - "3000:3000"
+    network_mode: "host"
