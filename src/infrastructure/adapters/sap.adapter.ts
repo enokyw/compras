@@ -2,6 +2,8 @@ import { Injectable } from '@nestjs/common';
 import { HttpService } from '@nestjs/axios';
 import { firstValueFrom } from 'rxjs';
 import { AuthResponseDto, AuthDto } from '../../domain/auth.dto';
+import { PurchaseRequestsDto } from 'src/domain/purchaseRequest.dto';
+import { PaginationDto } from 'src/domain/pagination.dto';
 
 
 @Injectable()
@@ -31,18 +33,22 @@ export class SAPAdapter {
     }
   }
 
-  async getPurchases(sessionId: string): Promise<any> {
+  async getPurchaseRequests(sessionId: string, purchaseRequestDto:PurchaseRequestsDto, paginationDto: PaginationDto ): Promise<any> {
+    const queryString = 'PurchaseRequests(102699)';
+
     try {
       const response = await firstValueFrom(
-        this.httpService.get(`${this.baseUrl}/PurchaseOrders`, {
-          headers: { Cookie: `B1SESSION=${sessionId}` },
+        this.httpService.get(`${this.baseUrl}/${queryString}`, {
+          headers: { B1SESSION: sessionId },
         }),
       );
+      if (response.status !== 200) {
+        return undefined;
+      }
 
       return response.data;
     } catch (error) {
-      throw new Error('Error al obtener compras de SAP');
+      throw new Error('Error al obtener solicitudes de compra');
     }
   }
 }
-

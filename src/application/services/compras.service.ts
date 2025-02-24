@@ -1,5 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { SAPAdapter } from '../../infrastructure/adapters/sap.adapter';
+import { PurchaseRequestsDto } from 'src/domain/purchaseRequest.dto';
+import { PaginationDto } from 'src/domain/pagination.dto';
 //import { RabbitMQAdapter } from 'src/infrastructure/adapters/rabbitmq.adapter';
 
 @Injectable()
@@ -9,9 +11,9 @@ export class ComprasService {
     //private readonly rabbitMQAdapter: RabbitMQAdapter
   ) {}
 
-  async obtenerCompras(sessionId: string) {
+  async findPurchaseRequests(sessionId: string, purchaseRequestsDto: PurchaseRequestsDto, paginationDto: PaginationDto) {
     try {
-      const response = await this.sapAdapter.getPurchases(sessionId);
+       const response = await this.sapAdapter.getPurchaseRequests(sessionId, purchaseRequestsDto, paginationDto);
       return response;
     } catch (error) {
       throw new Error('Error al obtener compras');

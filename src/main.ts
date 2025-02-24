@@ -1,5 +1,6 @@
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
+import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 //import { MicroserviceOptions, Transport } from '@nestjs/microservices';
 import 'dotenv/config';
 
@@ -18,9 +19,15 @@ async function bootstrap() {
       queue: 'compras_queue',
       queueOptions: { durable: false },
     },
-  });
-
-  await app.startAllMicroservices(); */
+  });*/
+  const config = new DocumentBuilder()
+    .setTitle(process.env.TITLE || 'Service API')
+    .setDescription(process.env.DESCRIPTION || 'Service API Documentation')
+    .setVersion(process.env.VERSION || '1.0')
+    .build();
+  const document = () => SwaggerModule.createDocument(app, config);
+  SwaggerModule.setup('', app, document());
+  //await app.startAllMicroservices();
   await app.listen(process.env.APP_PORT!);
 }
 bootstrap();
