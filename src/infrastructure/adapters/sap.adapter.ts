@@ -33,22 +33,48 @@ export class SAPAdapter {
     }
   }
 
-  async getPurchaseRequests(sessionId: string, purchaseRequestDto:PurchaseRequestsDto, paginationDto: PaginationDto ): Promise<any> {
-    const queryString = 'PurchaseRequests(102699)';
+  async getPurchaseRequests(sessionId: string, purchaseRequestDto: PurchaseRequestsDto, paginationDto: PaginationDto): Promise<any> {
+    const { page, DocStatus } = { ...paginationDto, ...purchaseRequestDto };
+    
+    const limit = 2;
+    const queryString = `PurchaseRequests?${DocStatus ? `$filter=DocumentStatus eq ${DocStatus}&` : ''}$select=DocEntry,DocNum,DocDate,DocDueDate,DocumentLines&$inlinecount=allpages&$top=${limit}&$skip=${(page??2 - 1) * limit}`;
 
     try {
       const response = await firstValueFrom(
         this.httpService.get(`${this.baseUrl}/${queryString}`, {
-          headers: { B1SESSION: sessionId },
+          headers: {
+            "Content-Type": "application/json",
+            Cookie: `B1SESSION=${sessionId}`,
+            B1SESSION: sessionId
+          },
         }),
       );
-      if (response.status !== 200) {
-        return undefined;
-      }
 
+      if (response.status === 200) {
+        const { data } = response;
+        const newData = {
+          pageCount: Math.ceil(data['@odata.count'] / limit),
+          currentPage: page,
+    
+          value: data.value.flatMap((item) =>
+            item.DocumentLines.map((line) => ({
+              DocNum: item.DocNum,
+              DocDate: item.DocDate,
+              DocDueDate: item.DocDueDate,
+              Dscription: line.ItemDescription,
+              ItemCode: line.ItemCode,
+              Quantity: line.Quantity,
+              Price: line.Price,
+              LineTotal: line.LineTotal,
+              WhsCode: line.WarehouseCode
+            }))
+          )
+        };
+        return newData;
+      }
       return response.data;
     } catch (error) {
-      throw new Error('Error al obtener solicitudes de compra');
+      throw error;
     }
   }
 }
