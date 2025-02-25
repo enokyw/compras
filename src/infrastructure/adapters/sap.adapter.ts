@@ -72,9 +72,9 @@ export class SAPAdapter {
         };
         return newData;
       }
-      return response.data;
+      return "Error al obtener solicitudes de compra";
     } catch (error) {
-      throw error;
+      return `Error al obtener solicitudes de compra: ${error.message}`;
     }
   }
 }
