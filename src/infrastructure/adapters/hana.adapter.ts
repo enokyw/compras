@@ -14,7 +14,16 @@ export class HanaAdapter {
                 COUNT(*) AS "total"
             FROM OPRQ T0
             INNER JOIN PRQ1 T1 ON T0."DocEntry" = T1."DocEntry"
+            INNER JOIN OUBR T2 ON T0."Branch" = T2."Code"
+            INNER JOIN OUSR T3 ON T0."Requester" = T3."USER_CODE"
+            INNER JOIN OUDP T4 ON T3."Department" = T4."Code"
             ${DocStatus ? `WHERE T0."DocStatus" = '${DocStatus}'` : ''}
+            ${Currency ? `AND T0."DocCur" = '${Currency}'` : ''}
+            ${Branch ? `AND T2."Name" = '${Branch}'` : ''}
+            ${search ? `AND (T0."DocNum" LIKE '%${search}%' 
+                OR T0."ReqName" LIKE '%${search}%'
+                OR T4."Name" LIKE '%${search}%')` : ''
+            }
         `)
         const totalRecords:number = countRecords?.[0]?.total??0
         if(totalRecords) {
@@ -27,8 +36,8 @@ export class HanaAdapter {
                         T0."ReqName",
                         T0."DocCur",
                         T1."Quantity",
-                        T2."Name" AS "Sucursal",
-                        T4."Name" AS "Departamento"
+                        T2."Name" AS "Branch",
+                        T4."Name" AS "Department"
                     FROM PRQ1 T1  
                     INNER JOIN OPRQ T0 ON T0."DocEntry" = T1."DocEntry"
                     INNER JOIN OUBR T2 ON T0."Branch" = T2."Code"
