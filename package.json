@@ -26,6 +26,7 @@
     "@nestjs/microservices": "^11.0.10",
     "@nestjs/platform-express": "^11.0.1",
     "@nestjs/swagger": "^11.0.5",
+    "@sap/hana-client": "^2.23.27",
     "amqp-connection-manager": "^4.1.14",
     "amqplib": "^0.10.5",
     "axios": "^1.7.9",

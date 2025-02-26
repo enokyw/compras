@@ -1,21 +1,25 @@
-import { IsString, Matches } from "class-validator";
-import { ApiProperty } from '@nestjs/swagger';
+import { IsOptional, IsString } from "class-validator";
+import { ApiPropertyOptional } from '@nestjs/swagger';
+import { PaginationDto } from "./pagination.dto";
 
-export class PurchaseRequestsDto {
+export class PurchaseRequestsDto extends PaginationDto {
+    @IsOptional()
     @IsString()
-    @ApiProperty({ example: 'C' })
-    DocStatus: string;
+    @ApiPropertyOptional({ example: 'C' })
+    DocStatus?: string;
 
-    /* @IsString()
-    @Matches(/^\d{4}-\d{2}-\d{2}$/, { message: 'Date must be in the format YYYY-MM-DD' })
-    @ApiProperty({ example: '2021-01-01' })
-    DocDateStart: string;
-
+    @IsOptional()
     @IsString()
-    @Matches(/^\d{4}-\d{2}-\d{2}$/, { message: 'Date must be in the format YYYY-MM-DD' })
-    @ApiProperty({ example: '2024-01-01' })
-    DocDateEnd: string;
+    @ApiPropertyOptional({ example: "SOL" })
+    Currency?: string;
 
+    @IsOptional()
     @IsString()
-    CardCode: string; */
+    @ApiPropertyOptional({ example: "Sucursal"})
+    Branch?: string;
+
+    @IsOptional()
+    @IsString()
+    @ApiPropertyOptional({ example: "Search by department or requester or branch"})
+    search?: string;
 }
