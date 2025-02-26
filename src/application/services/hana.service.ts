@@ -1,8 +1,9 @@
 import * as hana from '@sap/hana-client';
 import { Injectable, Logger, OnModuleDestroy, OnModuleInit } from '@nestjs/common';
+import 'dotenv/config';
 
 const DB_PARAMS = {
-    serverNode: '127.0.0.1:30015',
+    serverNode: process.env.SERVICE_NODE!,
     uid: 'system',
     pwd: 'AtTu2AUC',
     //encrypt: 'true',
