@@ -34,8 +34,8 @@ export class HanaAdapter {
                         TO_CHAR(T0."DocDueDate", 'DD-MM-YYYY') AS "DocDueDate",
                         T0."ReqName",
                         T0."DocCur",
-                        T2."Name" AS "Sucursal",
-                        T4."Name" AS "Departamento"
+                        T2."Name" AS "Branch",
+                        T4."Name" AS "Department"
                     FROM OPRQ T0
                     INNER JOIN OUBR T2 ON T0."Branch" = T2."Code"
                     INNER JOIN OUSR T3 ON T0."Requester" = T3."USER_CODE"
