@@ -19,9 +19,7 @@ export class HanaAdapter {
             ${DocStatus ? `WHERE T0."DocStatus" = '${DocStatus}'` : ''}
             ${Currency ? `AND T0."DocCur" = '${Currency}'` : ''}
             ${Branch ? `AND T2."Name" = '${Branch}'` : ''}
-            ${search ? `AND (T0."DocNum" LIKE '%${search}%' 
-                OR T0."ReqName" LIKE '%${search}%'
-                OR T4."Name" LIKE '%${search}%')` : ''
+            ${search ? `AND (T0."DocNum" LIKE '%${search}%')` : ''
             }
         `)
         const totalRecords:number = countRecords?.[0]?.total??0
@@ -43,10 +41,9 @@ export class HanaAdapter {
                     ${DocStatus ? `WHERE T0."DocStatus" = '${DocStatus}'` : ''}
                     ${Currency ? `AND T0."DocCur" = '${Currency}'` : ''}
                     ${Branch ? `AND T2."Name" = '${Branch}'` : ''}
-                    ${search ? `AND (T0."DocNum" LIKE '%${search}%' 
-                        OR T0."ReqName" LIKE '%${search}%'
-                        OR T4."Name" LIKE '%${search}%')` : ''
+                    ${search ? `AND (T0."DocNum" LIKE '%${search}%')` : ''
                     }
+                    ORDER BY T0."DocDate" DESC
                     LIMIT ${limit} OFFSET ${(page - 1) * limit}
                 `),
                 meta: {

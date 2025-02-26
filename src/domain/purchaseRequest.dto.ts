@@ -10,6 +10,11 @@ export class PurchaseRequestsDto extends PaginationDto {
 
     @IsOptional()
     @IsString()
+    @ApiPropertyOptional({ example: "45854555"})
+    DocNum?: string;
+
+    @IsOptional()
+    @IsString()
     @ApiPropertyOptional({ example: "SOL" })
     Currency?: string;
 
