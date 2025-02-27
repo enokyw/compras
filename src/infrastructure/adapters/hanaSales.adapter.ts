@@ -33,6 +33,15 @@ export class HanaSalesAdapter {
             WHERE T0."DocNum" = ${DocNum}
             ORDER BY T0."DocNum" DESC
         `) as {[key:string]:any}[];
+
+        const whs = await this.hanaService.query(`
+            SELECT
+                T0."Address",
+                T0."Street"
+            FROM CRD1 T0
+            INNER JOIN ORDR T1 ON T0."CardCode" = T1."CardCode"
+            WHERE T1."DocNum" = ${DocNum}
+        `)
         
         if(Array.isArray(saleOrder) && saleOrder.length) {
             return {
@@ -44,6 +53,7 @@ export class HanaSalesAdapter {
                 TaxDate: saleOrder[0]?.TaxDate,
                 DocStatus: saleOrder[0]?.DocStatus,
                 NumAtCard: saleOrder[0]?.NumAtCard,
+                warehouses: whs??[],
                 Serie: saleOrder[0]?.Serie,
                 Lines: saleOrder.map(line => ({
                     LineNum: line?.LineNum,
@@ -55,7 +65,7 @@ export class HanaSalesAdapter {
                     ShipDate: line?.ShipDate,
                     ShipToCode: line?.ShipToCode,
                     ShipToDesc: line?.ShipToDesc
-                }))
+                })),
             }
         }
 
