@@ -24,7 +24,9 @@ export class HanaSalesAdapter {
                 T2."Quantity",
                 T2."OpenQty",
                 T2."DelivrdQty",
-                T2."ShipDate"
+                T2."ShipDate",
+                T2."ShipToCode",
+                T2."ShipToDesc"
             FROM ORDR T0
             INNER JOIN NNM1 T1 ON T0."Series" = T1."Series"
             LEFT JOIN RDR1 T2 ON T0."DocEntry" = T2."DocEntry"
@@ -50,7 +52,9 @@ export class HanaSalesAdapter {
                     Quantity: line?.Quantity,
                     OpenQty: line?.OpenQty,
                     DelivrdQty: line?.DelivrdQty,
-                    ShipDate: line?.ShipDate
+                    ShipDate: line?.ShipDate,
+                    ShipToCode: line?.ShipToCode,
+                    ShipToDesc: line?.ShipToDesc
                 }))
             }
         }
