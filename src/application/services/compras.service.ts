@@ -14,7 +14,15 @@ export class ComprasService {
     try {
       return await this.hanaAdapter.queryPurchaseRequests(prDto);
     } catch (error) {
-      throw new Error('Error al obtener compras');
+      return { error: `Error! ${error.message}` };
+    }
+  }
+
+  async findPurchaseRequestByDocNum(docNum: number) {
+    try {
+      return await this.hanaAdapter.queryPurchaseRequestByDocNum(docNum);
+    } catch (error) {
+      return { error: `Error! ${error.message}` };
     }
   }
 

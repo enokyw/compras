@@ -69,8 +69,8 @@ export class HanaSalesAdapter {
                     ShipToDesc: line?.ShipToDesc
                 })),
             }
+        } else {
+            return { error: 'Sale Order not finded with this DocNum' }
         }
-
-        return {}
     }
 }

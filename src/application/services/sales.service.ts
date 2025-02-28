@@ -6,6 +6,10 @@ export class SalesService {
     constructor(private readonly hanaAdapter: HanaSalesAdapter) { }
     
     async SaleOrder(DocNum: number) {
-        return await this.hanaAdapter.QuerySaleOrderByDocNum(DocNum);
+        try {
+            return await this.hanaAdapter.QuerySaleOrderByDocNum(DocNum);
+        } catch (error) {
+            return { error: `Error! ${error.message}` };
+        }
     }
 }
