@@ -1,4 +1,4 @@
-import { Controller, Get, Param } from "@nestjs/common";
+import { Controller, Get, HttpException, HttpStatus, Param } from "@nestjs/common";
 import { ApiResponse } from "@nestjs/swagger";
 import { SalesService } from "src/application/services/sales.service";
 
@@ -9,6 +9,10 @@ export class SalesController {
     @Get(':DocNum')
     @ApiResponse({ status: 200, description: 'Sale Order' })
     async findSaleOrderByDocNum(@Param('DocNum') DocNum: number) {
-        return await this.salesService.SaleOrder(DocNum);
+        const result = await this.salesService.SaleOrder(DocNum);
+        if (!result) {
+            throw new HttpException('Sale Order not found!', HttpStatus.NOT_FOUND);
+        }
+        return result;
     }
 }

@@ -1,4 +1,4 @@
-import { Controller, Get, Headers, Param, Query } from '@nestjs/common';
+import { Controller, Get, HttpException, HttpStatus, Param, Query } from '@nestjs/common';
 import { ComprasService } from '../../application/services/compras.service';
 import { PurchaseRequestsDto } from 'src/domain/purchaseRequest.dto';
 import { ApiResponse } from '@nestjs/swagger';
@@ -18,6 +18,10 @@ export class ComprasController {
     @Get(':DocNum')
     @ApiResponse({ status: 200, description: 'Purchase Request' })
     async findPurchaseRequestByDocNum(@Param('DocNum') DocNum: number) {
-        return await this.comprasService.findPurchaseRequestByDocNum(DocNum);
+        const result = await this.comprasService.findPurchaseRequestByDocNum(DocNum);
+        if (!result) {
+            throw new HttpException('Purchase Request not found!', HttpStatus.NOT_FOUND);
+        }
+        return result;
     }
 }

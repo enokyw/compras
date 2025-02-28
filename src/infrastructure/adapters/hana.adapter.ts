@@ -53,6 +53,14 @@ export class HanaAdapter {
                 }
             }
         }
+        return {
+            data: [],
+            meta: {
+                page,
+                totalPages: 0,
+                totalRecords
+            }
+        }
     }
     
     async queryPurchaseRequestByDocNum(docNum: number) {
@@ -100,8 +108,7 @@ export class HanaAdapter {
                 Department: purchaseRequest[0]?.Department,
                 items: items??[]
             }
-        } else {
-            return { error: 'Purchase Request not finded with this DocNum' }
         }
+        return undefined
     }
 }

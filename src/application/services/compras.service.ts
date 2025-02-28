@@ -14,7 +14,7 @@ export class ComprasService {
     try {
       return await this.hanaAdapter.queryPurchaseRequests(prDto);
     } catch (error) {
-      return { error: `Error! ${error.message}` };
+      throw new Error(`Error! ${error.message}`);
     }
   }
 
@@ -22,7 +22,7 @@ export class ComprasService {
     try {
       return await this.hanaAdapter.queryPurchaseRequestByDocNum(docNum);
     } catch (error) {
-      return { error: `Error! ${error.message}` };
+      throw new Error(`Error! ${error.message}`);
     }
   }
 
