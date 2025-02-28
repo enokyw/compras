@@ -1,14 +1,14 @@
 import { Module } from '@nestjs/common';
 import { HttpModule } from '@nestjs/axios';
-import { ComprasController } from '../controllers/compras.controller';
-import { ComprasService } from '../../application/services/compras.service';
+import { PurchasesController } from '../controllers/purchases.controller';
+import { PurchasesService } from '../../application/services/purchases.service';
 import { SAPAdapter } from '../adapters/sap.adapter';
 import { HanaModule } from './hana.module';
 //import { RabbitMQAdapter } from '../adapters/rabbitmq.adapter';
 
 @Module({
   imports: [HttpModule, HanaModule],
-  controllers: [ComprasController],
-  providers: [ComprasService, SAPAdapter, /* RabbitMQAdapter */],
+  controllers: [PurchasesController],
+  providers: [PurchasesService, SAPAdapter, /* RabbitMQAdapter */],
 })
-export class ComprasModule {}
+export class PurchasesModule {}

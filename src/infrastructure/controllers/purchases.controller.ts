@@ -1,11 +1,11 @@
 import { Controller, Get, HttpException, HttpStatus, Param, Query } from '@nestjs/common';
-import { ComprasService } from '../../application/services/compras.service';
+import { PurchasesService } from '../../application/services/purchases.service';
 import { PurchaseRequestsDto } from 'src/domain/purchaseRequest.dto';
 import { ApiResponse } from '@nestjs/swagger';
 
 @Controller('PurchaseRequests')
-export class ComprasController {
-    constructor(private readonly comprasService: ComprasService) { }
+export class PurchasesController {
+    constructor(private readonly comprasService: PurchasesService) { }
 
     @Get()
     @ApiResponse({ status: 200, description: 'Purchase Requests' })

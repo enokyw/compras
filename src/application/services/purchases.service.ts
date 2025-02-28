@@ -4,7 +4,7 @@ import { HanaAdapter } from 'src/infrastructure/adapters/hana.adapter';
 //import { RabbitMQAdapter } from 'src/infrastructure/adapters/rabbitmq.adapter';
 
 @Injectable()
-export class ComprasService {
+export class PurchasesService {
   constructor(
     private readonly hanaAdapter: HanaAdapter,
     //private readonly rabbitMQAdapter: RabbitMQAdapter
